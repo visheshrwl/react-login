@@ -1,0 +1,46 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+        cd frontend
+        npm install
+
+    # - name: Run Django Tests
+    #   run: |
+    #     python manage.py test
+    #   working-directory: ./backend  # Change to your Django project directory
+
+    - name: Run ReactJS Tests
+      run: |
+        cd frontend
+        npm test
+
+    # - name: Generate Code Change Summary
+    #   run: |
+    #     python your_code_change_summary_script.py  # Replace with your script name and parameters
+
+    - name: Notify Users
+      run: |
+        # Implement your notification mechanism here (e.g., send an email or message)
+
+    # Add additional steps for deployment if needed
+
